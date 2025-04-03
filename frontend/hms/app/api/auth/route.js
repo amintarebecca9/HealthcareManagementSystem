@@ -20,7 +20,7 @@ const users = [
     id: 3,
     email: "patient@hms.com",
     password: "patient123",
-    name: "Supraj Bachawala",
+    name: "Michael Brown",
     role: "patient",
   },
 ]

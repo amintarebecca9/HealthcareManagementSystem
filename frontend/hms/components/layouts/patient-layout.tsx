@@ -118,7 +118,7 @@ export default function PatientLayout({ children }) {
                 <AvatarFallback>SB</AvatarFallback>
               </Avatar>
               <div className="hidden md:block">
-                <p className="text-sm font-medium">Supraj Bachawala
+                <p className="text-sm font-medium">Michael Brown
 </p>
                 <p className="text-xs text-gray-500">Patient</p>
               </div>

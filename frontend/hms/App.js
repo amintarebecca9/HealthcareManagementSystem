@@ -55,7 +55,7 @@ export default function App({ Component, pageProps }) {
   const patientData = [
     {
       id: 1,
-      name: "Supraj Bachawala",
+      name: "Michael Brown",
       phone: "+1 234 567 890",
       created: new Date(Date.now() - 86400000).toLocaleDateString("en-US", {
         day: "2-digit",
