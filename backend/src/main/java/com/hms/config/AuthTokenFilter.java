@@ -1,7 +1,7 @@
 package com.hms.config;
 
-import com.hms.auth.User;
-import com.hms.auth.UserRepository;
+import com.hms.model.User;
+import com.hms.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,7 +1,9 @@
-package com.hms.documents;
+package com.hms.service;
 
-import com.hms.auth.User;
-import com.hms.auth.UserRepository;
+import com.hms.model.User;
+import com.hms.model.Document;
+import com.hms.repository.DocumentRepository;
+import com.hms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,8 +20,8 @@ public class DocumentService {
     @Autowired
     private UserRepository userRepository;
     
-    public Document storeDocument(MultipartFile file, Document.DocumentType documentType, 
-                                String description, Long uploadedById, Long relatedToUserId) throws IOException {
+    public Document storeDocument(MultipartFile file, Document.DocumentType documentType,
+                                  String description, Long uploadedById, Long relatedToUserId) throws IOException {
         
         String fileName = file.getOriginalFilename();
         String fileType = file.getContentType();

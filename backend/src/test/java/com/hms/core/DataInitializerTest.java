@@ -1,7 +1,7 @@
 package com.hms.core;
 
-import com.hms.auth.User;
-import com.hms.auth.UserRepository;
+import com.hms.model.User;
+import com.hms.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

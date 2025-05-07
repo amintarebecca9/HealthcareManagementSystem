@@ -1,6 +1,7 @@
-package com.hms.documents;
+package com.hms.repository;
 
-import com.hms.auth.User;
+import com.hms.model.User;
+import com.hms.model.Document;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

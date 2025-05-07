@@ -1,7 +1,7 @@
 package com.hms.core;
 
-import com.hms.auth.User;
-import com.hms.auth.UserRepository;
+import com.hms.model.User;
+import com.hms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;

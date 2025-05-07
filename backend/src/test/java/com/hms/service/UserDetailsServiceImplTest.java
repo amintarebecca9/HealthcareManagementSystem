@@ -1,10 +1,8 @@
 package com.hms.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import java.util.Optional;
-
+import com.hms.model.User;
+import com.hms.core.HealthcareManagementSystemApplication;
+import com.hms.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,9 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.hms.auth.User;
-import com.hms.auth.UserRepository;
-import com.hms.core.HealthcareManagementSystemApplication;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = HealthcareManagementSystemApplication.class)
 public class UserDetailsServiceImplTest {

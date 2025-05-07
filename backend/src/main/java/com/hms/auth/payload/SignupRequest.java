@@ -1,6 +1,6 @@
 package com.hms.auth.payload;
 
-import com.hms.auth.User;
+import com.hms.model.User;
 
 public class SignupRequest {
     private String username;

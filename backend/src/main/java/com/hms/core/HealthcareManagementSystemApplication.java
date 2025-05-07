@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.hms")
-@EntityScan({"com.hms.auth", "com.hms.documents"})
-@EnableJpaRepositories({"com.hms.auth", "com.hms.documents"})
+@EntityScan({"com.hms.model"})
+@EnableJpaRepositories({"com.hms.repository"})
 public class HealthcareManagementSystemApplication {
 
 	public static void main(String[] args) {

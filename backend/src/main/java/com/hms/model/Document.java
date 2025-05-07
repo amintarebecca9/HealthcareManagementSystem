@@ -1,6 +1,5 @@
-package com.hms.documents;
+package com.hms.model;
 
-import com.hms.auth.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

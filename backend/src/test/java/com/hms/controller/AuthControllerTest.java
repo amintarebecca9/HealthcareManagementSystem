@@ -1,8 +1,8 @@
 package com.hms.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hms.auth.User;
-import com.hms.auth.UserRepository;
+import com.hms.model.User;
+import com.hms.repository.UserRepository;
 import com.hms.auth.payload.LoginRequest;
 import com.hms.auth.payload.SignupRequest;
 import com.hms.core.HealthcareManagementSystemApplication;
