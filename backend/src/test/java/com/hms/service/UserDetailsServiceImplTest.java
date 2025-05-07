@@ -3,6 +3,7 @@ package com.hms.service;
 import com.hms.model.User;
 import com.hms.core.HealthcareManagementSystemApplication;
 import com.hms.repository.UserRepository;
+import com.hms.service.impl.UserDetailsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
