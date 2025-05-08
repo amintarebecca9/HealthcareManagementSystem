@@ -3,7 +3,9 @@ package com.hms.service.impl;
 
 import com.hms.dto.ConversationDto;
 import com.hms.dto.MessageDto;
+import com.hms.model.Doctor;
 import com.hms.model.MessageNotification;
+import com.hms.model.Patient;
 import com.hms.model.User;
 import com.hms.repository.AppointmentRepository;
 import com.hms.repository.MessageNotificationRepository;
@@ -62,17 +64,26 @@ public class SecureMessageServiceImpl implements SecureMessageService {
     @Override
     public List<ConversationDto> listConversations(User me) {
         // find all partners via appointments
-        List<User> partners = me.getRole().equals("DOCTOR")
-                ? apptRepo.findDistinctPatientsByDoctorId(me.getId())
-                : apptRepo.findDistinctDoctorsByPatientId(me.getId());
-
-        return partners.stream()
-                .map(u -> new ConversationDto(
-                        u.getId(),
-                        u.getUsername(),
-                        msgRepo.countUnread(u.getId(), me.getId())
-                ))
-                .toList();
+        if(!me.getRole().equals("DOCTOR")){
+            List<Doctor> partners= apptRepo.findDistinctDoctorsByPatientId(me.getId());
+            return partners.stream()
+                    .map(u -> new ConversationDto(
+                            u.getDoctorId(),
+                            u.getUser().getUsername(),
+                            msgRepo.countUnread(u.getDoctorId(), me.getId())
+                    ))
+                    .toList();
+        }
+        else{
+            List<Patient> partners= apptRepo.findDistinctPatientsByDoctorId(me.getId());
+            return partners.stream()
+                    .map(u -> new ConversationDto(
+                            u.getPatientId(),
+                            u.getUser().getUsername(),
+                            msgRepo.countUnread(u.getPatientId(), me.getId())
+                    ))
+                    .toList();
+        }
     }
 
     @Override

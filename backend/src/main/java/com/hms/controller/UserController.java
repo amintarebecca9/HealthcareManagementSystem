@@ -1,5 +1,7 @@
 package com.hms.controller;
 
+import com.hms.model.Doctor;
+import com.hms.model.Patient;
 import com.hms.model.User;
 import com.hms.repository.AppointmentRepository;
 import com.hms.repository.UserRepository;
@@ -24,7 +26,7 @@ public class UserController {
     private AppointmentRepository appointmentRepo;
 
     @GetMapping("/my-patients")
-    public List<User> myPatients(Authentication authentication) {
+    public List<Patient> myPatients(Authentication authentication) {
         String username = authentication.getName();
         User me = userRepo.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
@@ -34,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/my-doctors")
-    public List<User> myDoctors(Authentication authentication) {
+    public List<Doctor> myDoctors(Authentication authentication) {
         String username = authentication.getName();
         User me = userRepo.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));

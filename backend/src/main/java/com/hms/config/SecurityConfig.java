@@ -89,6 +89,8 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/api/documents/upload").authenticated()
                     // Other document endpoints
                     .requestMatchers(new AntPathRequestMatcher("/api/documents/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/appointments/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/secure-messages/**")).authenticated()
                     .requestMatchers(new AntPathRequestMatcher("/api/doctor/**")).hasRole("DOCTOR")
                     .requestMatchers(new AntPathRequestMatcher("/api/patient/**")).hasRole("PATIENT")
                     .requestMatchers(new AntPathRequestMatcher("/api/staff/**")).hasRole("STAFF")
