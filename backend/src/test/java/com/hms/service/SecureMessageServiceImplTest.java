@@ -103,9 +103,9 @@ class SecureMessageServiceImplTest {
     @Test
     void testMarkAsReadSuccess() {
         msg.setReceiver(receiver);
-        when(msgRepo.findById(10)).thenReturn(Optional.of(msg));
+        when(msgRepo.findById(10L)).thenReturn(Optional.of(msg));
 
-        service.markAsRead(10, receiver);
+        service.markAsRead(10L, receiver);
 
         assertTrue(msg.getIsRead());
         verify(msgRepo).save(msg);
@@ -114,19 +114,19 @@ class SecureMessageServiceImplTest {
     @Test
     void testMarkAsReadUnauthorized() {
         msg.setReceiver(new User()); // different user
-        when(msgRepo.findById(10)).thenReturn(Optional.of(msg));
+        when(msgRepo.findById(10L)).thenReturn(Optional.of(msg));
 
         Exception ex = assertThrows(RuntimeException.class,
-                () -> service.markAsRead(10, receiver));
+                () -> service.markAsRead(10L, receiver));
         assertThat(ex.getMessage()).isEqualTo("Unauthorized");
     }
 
     @Test
     void testMarkAsReadNotFound() {
-        when(msgRepo.findById(999)).thenReturn(Optional.empty());
+        when(msgRepo.findById(999L)).thenReturn(Optional.empty());
 
         Exception ex = assertThrows(RuntimeException.class,
-                () -> service.markAsRead(999, receiver));
+                () -> service.markAsRead(999L, receiver));
         assertThat(ex.getMessage()).isEqualTo("Message not found");
     }
 }

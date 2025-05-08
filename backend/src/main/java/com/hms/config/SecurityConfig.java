@@ -83,7 +83,8 @@ public class SecurityConfig {
                     .requestMatchers(new AntPathRequestMatcher("/login.html")).permitAll()
                     .requestMatchers(new AntPathRequestMatcher("/register.html")).permitAll()
                     .requestMatchers(new AntPathRequestMatcher("/dashboard.html")).permitAll()
-                    .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/messaging.html")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
                     // Special handling for document upload endpoint
                     .requestMatchers(HttpMethod.POST, "/api/documents/upload").authenticated()
                     // Other document endpoints

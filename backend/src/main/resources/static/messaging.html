@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>Secure Messaging</title>
+    <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Healthcare Management System</h1>
+        <div id="user-info" class="user-info"></div>
+    </header>
+
+    <main>
+        <div class="chat-container">
+            <aside class="conversation-list">
+                <h2>Conversations</h2>
+                <div id="conversation-list"><p>Loading…</p></div>
+            </aside>
+            <section class="chat-pane">
+                <h2 id="chat-with">Select a conversation</h2>
+                <div id="message-history" class="message-history">
+                    <p>No conversation selected.</p>
+                </div>
+                <form id="message-form" style="display: none;">
+                    <input id="message-input" placeholder="Type your message…" autocomplete="off"/>
+                    <button type="submit">Send</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Healthcare Management System</p>
+    </footer>
+</div>
+
+<!-- Load helpers and messaging logic -->
+<script src="js/auth.js" defer></script>
+<script src="js/common.js" defer></script>
+<script src="js/messaging.js" defer></script>
+</body>
+</html>

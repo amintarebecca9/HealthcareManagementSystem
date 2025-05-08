@@ -11,7 +11,10 @@
         <header>
             <h1>Healthcare Management System</h1>
             <div id="user-info" class="user-info">
-                <!-- User info will be populated here -->
+                <span class="username"></span>
+                <span class="user-role"></span>
+                <a id="login-link" href="login.html">Log In</a>
+                <a id="logout-link" href="#" style="display:none;" onclick="localStorage.clear(); window.location.href='login.html';">Log Out</a>
             </div>
         </header>
         
@@ -24,9 +27,12 @@
                     <h3>Doctor Panel</h3>
                     <p>Welcome, Doctor! Here you can manage your appointments and patient records.</p>
                     <div class="feature-list">
-                        <div class="feature-item">
-                            <h4>Patient Management</h4>
-                            <p>View and manage your patient list</p>
+                        <div class="feature-list">
+                            <!-- Other doctor features… -->
+                            <a href="messaging.html" class="feature-item" style="text-decoration:none;">
+                                <h4>Messages</h4>
+                                <p>Communicate with your patients</p>
+                            </a>
                         </div>
                         <div class="feature-item">
                             <h4>Appointments</h4>
@@ -99,9 +105,12 @@
                             <h4>My Appointments</h4>
                             <p>Schedule and view upcoming appointments</p>
                         </div>
-                        <div class="feature-item">
-                            <h4>Messages</h4>
-                            <p>Communicate with your healthcare providers</p>
+                        <div class="feature-list">
+                            <!-- Other patient features… -->
+                            <a href="messaging.html" class="feature-item" style="text-decoration:none;">
+                                <h4>Messages</h4>
+                                <p>Communicate with your healthcare providers</p>
+                            </a>
                         </div>
                     </div>
                     
@@ -300,6 +309,7 @@
     
     <script src="js/dashboard.js"></script>
     <script src="js/documents.js"></script>
+    <script src="js/common.js" defer></script>
     <script>
         // Initialize document features after dashboard loads
         document.addEventListener('DOMContentLoaded', function() {

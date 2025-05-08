@@ -7,10 +7,10 @@ import jakarta.persistence.*;
 public class Doctor {
 
     @Id
-    @Column(nullable = false)
-    private Integer doctorId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long doctorId;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     @MapsId
     @JoinColumn(name = "doctor_id")
     private User user;
@@ -36,11 +36,11 @@ public class Doctor {
     }
 
     // Getters and Setters
-    public Integer getDoctorId() {
+    public Long getDoctorId() {
         return doctorId;
     }
 
-    public void setDoctorId(Integer doctorId) {
+    public void setDoctorId(Long doctorId) {
         this.doctorId = doctorId;
     }
 

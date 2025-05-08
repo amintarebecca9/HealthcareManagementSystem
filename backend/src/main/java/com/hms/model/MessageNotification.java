@@ -10,7 +10,7 @@ public class MessageNotification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Integer messageId;
+    private Long messageId;
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
@@ -35,13 +35,11 @@ public class MessageNotification {
     @Column(nullable = false)
     private Boolean isRead = Boolean.FALSE;
 
-    @ManyToOne
     @JoinColumn(name = "prescription_id")
-    private Prescription prescription;
+    private Long prescription;
 
-    @ManyToOne
     @JoinColumn(name = "report_id")
-    private LabReport labReport;
+    private Long labReport;
 
     // Default constructor
     public MessageNotification() {}
@@ -54,8 +52,8 @@ public class MessageNotification {
                                String content,
                                Boolean isEncrypted,
                                Boolean isRead,
-                               Prescription prescription,
-                               LabReport labReport) {
+                               Long prescription,
+                               Long labReport) {
         this.sender = sender;
         this.receiver = receiver;
         this.timestamp = timestamp;
@@ -68,11 +66,11 @@ public class MessageNotification {
     }
 
     // Getters and Setters
-    public Integer getMessageId() {
+    public Long getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(Integer messageId) {
+    public void setMessageId(Long messageId) {
         this.messageId = messageId;
     }
 
@@ -132,19 +130,19 @@ public class MessageNotification {
         this.isRead = isRead;
     }
 
-    public Prescription getPrescription() {
+    public Long getPrescription() {
         return prescription;
     }
 
-    public void setPrescription(Prescription prescription) {
+    public void setPrescription(Long prescription) {
         this.prescription = prescription;
     }
 
-    public LabReport getLabReport() {
+    public Long getLabReport() {
         return labReport;
     }
 
-    public void setLabReport(LabReport labReport) {
+    public void setLabReport(Long labReport) {
         this.labReport = labReport;
     }
 }

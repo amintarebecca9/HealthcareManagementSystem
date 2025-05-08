@@ -9,7 +9,7 @@ public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer appointmentId;
+    private Long appointmentId;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
@@ -42,11 +42,11 @@ public class Appointment {
     }
 
     // Getters and Setters
-    public Integer getAppointmentId() {
+    public Long getAppointmentId() {
         return appointmentId;
     }
 
-    public void setAppointmentId(Integer appointmentId) {
+    public void setAppointmentId(Long appointmentId) {
         this.appointmentId = appointmentId;
     }
 

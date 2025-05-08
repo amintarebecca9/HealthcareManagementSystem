@@ -351,3 +351,49 @@ footer {
     color: #7f8c8d;
     border-top: 1px solid #e0e0e0;
 }
+
+/* Layout wrapper to hold sidebar + content */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* --- Sidebar --- */
+aside.sidebar {
+  width: 200px;
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 20px 0;
+}
+
+aside.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+aside.sidebar li {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+aside.sidebar li:hover,
+aside.sidebar li.active {
+  background-color: #34495e;
+}
+
+/* --- Main content area --- */
+main.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.chat-container { display: flex; }
+.conversation-list { width: 25%; border-right: 1px solid #ccc; padding: .5em; }
+.chat-pane        { flex: 1; padding: .5em; display: flex; flex-direction: column; }
+.message-history  { flex: 1; overflow-y: auto; margin-bottom: .5em; }
+.message { margin: .5em 0; }
+.message.sent   { text-align: right; }
+.unread-badge   { background: red; color: white; border-radius: 50%; padding: 0 .5em; font-size: .8em; }
+

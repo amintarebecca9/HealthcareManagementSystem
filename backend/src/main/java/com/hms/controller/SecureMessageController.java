@@ -1,5 +1,7 @@
 package com.hms.controller;
 
+import com.hms.dto.ConversationDto;
+import com.hms.dto.MessageDto;
 import com.hms.model.MessageNotification;
 import com.hms.model.User;
 import com.hms.repository.UserRepository;
@@ -28,8 +30,8 @@ public class SecureMessageController {
             @RequestParam Long toUserId,
             @RequestParam String type,
             @RequestParam String content,
-            @RequestParam(required = false) Integer prescriptionId,
-            @RequestParam(required = false) Integer labReportId) {
+            @RequestParam(required = false) Long prescriptionId,
+            @RequestParam(required = false) Long labReportId) {
 
         // load sender from Authentication
         String username = authentication.getName();
@@ -67,7 +69,7 @@ public class SecureMessageController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void markRead(
             Authentication authentication,
-            @PathVariable Integer id) {
+            @PathVariable Long id) {
 
         String username = authentication.getName();
         User user = userRepo.findByUsername(username)
@@ -75,5 +77,19 @@ public class SecureMessageController {
                         HttpStatus.UNAUTHORIZED, "User not found"));
 
         msgService.markAsRead(id, user);
+    }
+
+    @GetMapping("/conversations")
+    public List<ConversationDto> listConversations(Authentication auth) {
+        User me = userRepo.findByUsername(auth.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        return msgService.listConversations(me);
+    }
+
+    @GetMapping("/{partnerId}/messages")
+    public List<MessageDto> getHistory(@PathVariable Long partnerId, Authentication auth) {
+        User me = userRepo.findByUsername(auth.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        return msgService.fetchAndMarkRead(me, partnerId);
     }
 }

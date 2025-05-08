@@ -8,10 +8,10 @@ import java.time.LocalDate;
 public class Patient {
 
     @Id
-    @Column(nullable = false)
-    private Integer patientId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long patientId;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     @MapsId
     @JoinColumn(name = "patient_id")
     private User user;
@@ -50,7 +50,7 @@ public class Patient {
     }
 
     // Getters and Setters
-    public Integer getPatientId() {
+    public Long getPatientId() {
         return patientId;
     }
 
