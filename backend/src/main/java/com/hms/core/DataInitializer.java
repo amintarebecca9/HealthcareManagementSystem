@@ -17,37 +17,43 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
 
-    @Autowired private UserRepository userRepository;
-    @Autowired private DoctorRepository doctorRepository;
-    @Autowired private PatientRepository patientRepository;
-    @Autowired private AppointmentRepository appointmentRepository;
-    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private DoctorRepository doctorRepository;
+    @Autowired
+    private PatientRepository patientRepository;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public void run(String... args) {
         // 1) Create Users
-        User docUser  = createUser("doctor",  "doctor@example.com",  "password", User.Role.DOCTOR);
-        User patUser1 = createUser("patient1","p1@example.com",       "password", User.Role.PATIENT);
-        User patUser2 = createUser("patient2","p2@example.com",       "password", User.Role.PATIENT);
-        User patUser3 = createUser("patient3","p3@example.com",       "password", User.Role.PATIENT);
-        createUser("staff",   "staff@example.com",   "password", User.Role.STAFF);
-        createUser("admin",   "admin@example.com",   "password", User.Role.ADMIN);
+        User docUser = createUser("doctor", "doctor@example.com", "password", User.Role.DOCTOR);
+        User patUser1 = createUser("patient1", "p1@example.com", "password", User.Role.PATIENT);
+        User patUser2 = createUser("patient2", "p2@example.com", "password", User.Role.PATIENT);
+        User patUser3 = createUser("patient3", "p3@example.com", "password", User.Role.PATIENT);
+        createUser("staff", "staff@example.com", "password", User.Role.STAFF);
+        createUser("admin", "admin@example.com", "password", User.Role.ADMIN);
 
         // 2) Create Doctor entity (if not present)
-        doctorRepository.findByUserId(docUser.getId())
-                .orElseGet(() -> {
-                    Doctor d = new Doctor();
-                    d.setUser(docUser);
-                    d.setSpecialization("General Practice");
-                    d.setLicenseNumber("LIC-12345");
-                    d.setHospitalAffiliation("City Hospital");
-                    return doctorRepository.save(d);
-                });
+        Optional<Doctor> doctor = doctorRepository.findByUserId(docUser.getId());
+        if (doctor.isEmpty()) {
+            Doctor d = new Doctor();
+            d.setUser(docUser);
+            d.setSpecialization("General Practice");
+            d.setLicenseNumber("LIC-12345");
+            d.setHospitalAffiliation("City Hospital");
+            doctorRepository.save(d);
+        }
 
         // 3) Create Patient entities (if not present)
         List<User> patientUsers = List.of(patUser1, patUser2, patUser3);
@@ -56,7 +62,7 @@ public class DataInitializer implements CommandLineRunner {
                     .orElseGet(() -> {
                         Patient p = new Patient();
                         p.setUser(u);
-                        p.setDateOfBirth(LocalDate.of(1990,1,1));
+                        p.setDateOfBirth(LocalDate.of(1990, 1, 1));
                         p.setGender("Unknown");
                         p.setAddress("123 Main St");
                         p.setInsuranceProvider("Acme Ins.");
@@ -88,8 +94,8 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private User createUser(String username, String email, String rawPassword, User.Role role) {
-        return userRepository.findByUsername(username)
-                .orElseGet(() -> {
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.orElseGet(() -> {
                     User u = new User(username, email, passwordEncoder.encode(rawPassword), role);
                     return userRepository.save(u);
                 });

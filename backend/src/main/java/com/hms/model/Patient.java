@@ -49,9 +49,14 @@ public class Patient {
         this.emergencyContact = emergencyContact;
     }
 
+
     // Getters and Setters
     public Long getPatientId() {
         return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
     }
 
     public User getUser() {
