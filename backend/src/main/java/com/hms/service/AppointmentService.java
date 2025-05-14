@@ -7,6 +7,7 @@ import com.hms.dto.CreateAppointmentRequest;
 import com.hms.model.Doctor;
 import com.hms.model.Patient;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface AppointmentService {
@@ -23,5 +24,7 @@ public interface AppointmentService {
     AppointmentResponse createAppointmentForPatient(Long patientId, AppointmentRequest request);
     AppointmentResponse updateAppointmentForPatient(Long patientId, Long apptId, AppointmentRequest request);
     void deleteAppointmentForPatient(Long patientId, Long apptId);
+    List<AppointmentDto> getAppointmentsByDate(LocalDate date);
+    AppointmentDto adminUpdateAppointment(Long apptId, AppointmentDto dto);
 }
 

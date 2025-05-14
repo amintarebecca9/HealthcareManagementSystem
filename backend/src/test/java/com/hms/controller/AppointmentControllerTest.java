@@ -74,12 +74,14 @@ class AppointmentControllerTest {
         // build a DTO using its constructor directly
         LocalDateTime date = LocalDateTime.of(2025, 5, 14, 10, 30);
         AppointmentDto dto = new AppointmentDto(
-                123L,                  // id
-                99L,                   // patientId
-                77L,                   // doctorId (doesn't matter for the test)
-                date,
-                "routine checkup"      // reason
+                123L,                   // id
+                99L,                    // patientId
+                77L,                    // doctorId
+                date,                   // appointmentDate
+                "SCHEDULED",            // status
+                "routine checkup"       // reasonForVisit
         );
+
         when(apptService.createAppointment(patient, req)).thenReturn(dto);
 
         // when

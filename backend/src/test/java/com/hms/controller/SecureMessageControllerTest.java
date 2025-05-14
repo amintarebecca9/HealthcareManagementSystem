@@ -202,11 +202,15 @@ class SecureMessageControllerTest {
         User user = new User(); user.setId(7L); user.setUsername("george");
         when(userRepo.findByUsername("george")).thenReturn(Optional.of(user));
         MessageDto msg = new MessageDto(
-                10L,        // id
-                7L,         // senderId
-                "george",   // senderName
-                "hello!",   // content
-                LocalDateTime.of(2025, 5, 14, 15, 0)          // timestamp
+                10L,                                      // id
+                7L,                                       // senderId
+                42L,                                      // receiverId  (example)
+                "CHAT",                                   // type        (e.g. CHAT, ALERT, etc.)
+                "hello!",                                 // content
+                null,                                     // prescriptionId (if none)
+                null,                                     // labReportId    (if none)
+                LocalDateTime.of(2025, 5, 14, 15, 0),     // timestamp
+                false                                     // read flag
         );
         List<MessageDto> msgs = List.of(msg);
         when(msgService.fetchAndMarkRead(user, 99L)).thenReturn(msgs);

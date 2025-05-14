@@ -44,6 +44,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 saved.getPatient().getPatientId(),
                 saved.getDoctor().getDoctorId(),
                 saved.getAppointmentDate(),
+                saved.getStatus(),
                 saved.getReasonForVisit()
         );
     }
@@ -183,6 +184,36 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public void deleteAppointmentForPatient(Long patientId, Long apptId) {
         apptRepo.deleteByPatientIdAndId(patientId, apptId);
+    }
+
+    @Override
+    public List<AppointmentDto> getAppointmentsByDate(LocalDate date) {
+        List<Appointment> list;
+        if (date != null) {
+            // fetch all on that date (assuming appointmentDate stores date/time)
+            LocalDateTime start = date.atStartOfDay();
+            LocalDateTime end = date.plusDays(1).atStartOfDay();
+            list = apptRepo.findByAppointmentDateBetween(start, end);
+        } else {
+            list = apptRepo.findAll();
+        }
+        return list.stream()
+                .map(AppointmentDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public AppointmentDto adminUpdateAppointment(Long apptId, AppointmentDto dto) {
+        Appointment appt = apptRepo.findById(apptId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Appointment not found"));
+        // map fields from dto to entity
+        appt.setAppointmentDate(dto.getAppointmentDate());
+        appt.setStatus(dto.getStatus());
+        appt.setReasonForVisit(dto.getReasonForVisit());
+        // save and return
+        Appointment updated = apptRepo.save(appt);
+        return AppointmentDto.fromEntity(updated);
     }
 
 }

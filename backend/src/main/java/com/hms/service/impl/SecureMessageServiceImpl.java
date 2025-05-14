@@ -102,12 +102,23 @@ public class SecureMessageServiceImpl implements SecureMessageService {
 
         return all.stream()
                 .map(m -> new MessageDto(
-                        m.getMessageId(),
-                        m.getSender().getId(),
-                        m.getSender().getUsername(),
-                        m.getContent(),
-                        m.getTimestamp()
+                        m.getMessageId(),                                     // id
+                        m.getSender().getId(),                     // senderId
+                        m.getReceiver().getId(),                   // receiverId
+                        m.getType(),                                   // type
+                        m.getContent(),                                // content
+                        m.getPrescription() != null
+                                ? m.getPrescription() : null, // prescriptionId
+                        m.getLabReport() != null
+                                ? m.getLabReport() : null,          // labReportId
+                        m.getTimestamp(),                              // timestamp
+                        m.getIsRead()                                     // read flag
                 ))
                 .toList();
+    }
+
+    @Override
+    public List<MessageNotification> getAllMessages() {
+                return msgRepo.findAll();
     }
 }
