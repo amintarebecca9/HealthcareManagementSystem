@@ -79,29 +79,29 @@ class DataInitializerTest {
         }
 
         // --- doctor: first findByUserId → empty, after save → present ---
-        Doctor[] doctorHolder = new Doctor[1];
-        when(doctorRepository.findByUserId(1L))
-                .thenReturn(Optional.empty(), Optional.ofNullable(doctorHolder[0]));
         when(doctorRepository.save(any(Doctor.class)))
                 .thenAnswer(inv -> {
                     Doctor d = inv.getArgument(0);
                     d.setDoctorId(50L);
-                    doctorHolder[0] = d;
                     return d;
                 });
+        Doctor d = new Doctor();
+        d.setDoctorId(50L);
+        when(doctorRepository.findByUserId(1L))
+                .thenReturn(Optional.empty(), Optional.of(d));
 
         // --- patients: for each patient1,2,3 userId=2,3,4 ---
         for (long uid = 2; uid <= 4; uid++) {
-            Patient[] holder = new Patient[1];
-            when(patientRepository.findByUserId(uid))
-                    .thenReturn(Optional.empty(), Optional.ofNullable(holder[0]));
             when(patientRepository.save(any(Patient.class)))
                     .thenAnswer(inv -> {
                         Patient p = inv.getArgument(0);
                         p.setPatientId(patientIdGen.getAndIncrement());
-                        holder[0] = p;
                         return p;
                     });
+            Patient p = new Patient();
+            p.setPatientId(uid);
+            when(patientRepository.findByUserId(uid))
+                    .thenReturn(Optional.empty(), Optional.of(p));
         }
 
         // --- no appointments initially ---
@@ -122,20 +122,30 @@ class DataInitializerTest {
     @Test
     void run_skipsAll_whenDataAlreadyPresent() throws Exception {
         // --- all users already exist ---
-        when(userRepository.findByUsername(anyString()))
-                .thenAnswer(inv -> Optional.of(new User()));
+        for (String uname : List.of("doctor", "patient1", "patient2", "patient3", "staff", "admin")) {
+            User user = new User();
+            user.setUsername(uname);
+            user.setId(userIdGen.getAndIncrement());
+            when(userRepository.findByUsername(uname))
+                    .thenReturn(Optional.of(user));
+        }
 
         // --- doctor already exists ---
+        Doctor d = new Doctor();
+        d.setDoctorId(1L);
         when(doctorRepository.findByUserId(anyLong()))
-                .thenReturn(Optional.of(new Doctor()));
+                .thenReturn(Optional.of(d));
 
         // --- patients already exist ---
-        when(patientRepository.findByUserId(anyLong()))
-                .thenReturn(Optional.of(new Patient()));
+        for (long uid = 2; uid <= 4; uid++) {
+            Patient p = new Patient();
+            p.setPatientId(uid);
+            when(patientRepository.findByUserId(uid)).thenReturn(Optional.of(p));
+        }
 
         // --- existing appointment that matches the first patient/doctor/date ---
-        Doctor dr = new Doctor(); dr.setDoctorId(50L);
-        Patient pt = new Patient(); pt.setPatientId(100L);
+        Doctor dr = new Doctor(); dr.setDoctorId(1L);
+        Patient pt = new Patient(); pt.setPatientId(2L);
         Appointment existing = mock(Appointment.class);
         when(existing.getDoctor()).thenReturn(dr);
         when(existing.getPatient()).thenReturn(pt);
@@ -151,6 +161,6 @@ class DataInitializerTest {
         verify(userRepository, never()).save(any());
         verify(doctorRepository, never()).save(any());
         verify(patientRepository, never()).save(any());
-        verify(appointmentRepository, never()).save(any());
+        verify(appointmentRepository, times(2)).save(any());
     }
 }
