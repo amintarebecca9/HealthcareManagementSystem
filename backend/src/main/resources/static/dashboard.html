@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Healthcare Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Healthcare Management System</h1>
+            <div id="user-info" class="user-info">
+                <span class="username"></span>
+                <span class="user-role"></span>
+                <a id="login-link" href="login.html">Log In</a>
+                <a id="logout-link" href="#" style="display:none;" onclick="localStorage.clear(); window.location.href='login.html';">Log Out</a>
+            </div>
+        </header>
+        
+        <main>
+            <div class="dashboard-container">
+                <h2>Welcome to Your Dashboard</h2>
+                
+                <!-- Role-specific content -->
+                <div id="doctor-panel" class="role-panel">
+                    <h3>Doctor Panel</h3>
+                    <p>Welcome, Doctor! Here you can manage your appointments and patient records.</p>
+                    <div class="feature-list">
+                        <div class="feature-list">
+                            <!-- Other doctor features… -->
+                            <a href="messaging.html" class="feature-item" style="text-decoration:none;">
+                                <h4>Messages</h4>
+                                <p>Communicate with your patients</p>
+                            </a>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Appointments</h4>
+                            <p>View your upcoming appointments</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Medical Records</h4>
+                            <p>Access and update patient medical records</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Document Management Section -->
+                    <div class="document-section">
+                        <h3>Document Management</h3>
+                        
+                        <!-- Upload Prescription Form -->
+                        <div class="upload-section">
+                            <h4>Upload New Document</h4>
+                            <form id="doctor-upload-form" class="upload-form">
+                                <div class="form-group">
+                                    <label for="doctor-file">Select File:</label>
+                                    <input type="file" id="doctor-file" name="file" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="doctor-document-type">Document Type:</label>
+                                    <select id="doctor-document-type" name="documentType" required>
+                                        <option value="PRESCRIPTION">Prescription</option>
+                                        <option value="MEDICAL_RECORD">Medical Record</option>
+                                        <option value="LAB_REPORT">Lab Report</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="doctor-description">Description:</label>
+                                    <textarea id="doctor-description" name="description" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="doctor-related-user">Patient ID (if applicable):</label>
+                                    <input type="text" id="doctor-related-user" name="relatedUserId">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Upload Document</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- My Uploaded Documents -->
+                        <div class="document-list-section">
+                            <h4>My Uploaded Documents</h4>
+                            <div id="doctor-documents" class="document-list">
+                                <!-- Documents will be populated here -->
+                                <p>Loading documents...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="patient-panel" class="role-panel">
+                    <h3>Patient Portal</h3>
+                    <p>Welcome to your health portal! Here you can track your medical history and appointments.</p>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <h4>My Records</h4>
+                            <p>Access your medical history and test results</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>My Appointments</h4>
+                            <p>Schedule and view upcoming appointments</p>
+                        </div>
+                        <div class="feature-list">
+                            <!-- Other patient features… -->
+                            <a href="messaging.html" class="feature-item" style="text-decoration:none;">
+                                <h4>Messages</h4>
+                                <p>Communicate with your healthcare providers</p>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Document Management Section -->
+                    <div class="document-section">
+                        <h3>My Medical Documents</h3>
+                        
+                        <!-- Upload Document Form -->
+                        <div class="upload-section">
+                            <h4>Upload New Document</h4>
+                            <form id="patient-upload-form" class="upload-form">
+                                <div class="form-group">
+                                    <label for="patient-file">Select File:</label>
+                                    <input type="file" id="patient-file" name="file" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="patient-document-type">Document Type:</label>
+                                    <select id="patient-document-type" name="documentType" required>
+                                        <option value="MEDICAL_RECORD">Medical Record</option>
+                                        <option value="INSURANCE">Insurance Document</option>
+                                        <option value="OTHER">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="patient-description">Description:</label>
+                                    <textarea id="patient-description" name="description" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Upload Document</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Documents Related to Me -->
+                        <div class="document-list-section">
+                            <h4>My Documents</h4>
+                            <div id="patient-uploaded-documents" class="document-list">
+                                <!-- Documents will be populated here -->
+                                <p>Loading documents...</p>
+                            </div>
+                            
+                            <h4>Documents Shared With Me</h4>
+                            <div id="patient-related-documents" class="document-list">
+                                <!-- Documents will be populated here -->
+                                <p>Loading documents...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="staff-panel" class="role-panel">
+                    <h3>Staff Dashboard</h3>
+                    <p>Welcome, Staff Member! Here you can manage administrative tasks.</p>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <h4>Appointment Management</h4>
+                            <p>Schedule and manage appointments</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Patient Registration</h4>
+                            <p>Register new patients</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Billing</h4>
+                            <p>Manage billing and insurance claims</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Document Management Section -->
+                    <div class="document-section">
+                        <h3>Document Management</h3>
+                        
+                        <!-- Upload Document Form -->
+                        <div class="upload-section">
+                            <h4>Upload New Document</h4>
+                            <form id="staff-upload-form" class="upload-form">
+                                <div class="form-group">
+                                    <label for="staff-file">Select File:</label>
+                                    <input type="file" id="staff-file" name="file" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="staff-document-type">Document Type:</label>
+                                    <select id="staff-document-type" name="documentType" required>
+                                        <option value="BILLING">Billing Document</option>
+                                        <option value="INSURANCE">Insurance Document</option>
+                                        <option value="MEDICAL_RECORD">Medical Record</option>
+                                        <option value="OTHER">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="staff-description">Description:</label>
+                                    <textarea id="staff-description" name="description" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="staff-related-user">Patient ID (if applicable):</label>
+                                    <input type="text" id="staff-related-user" name="relatedUserId">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Upload Document</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Uploaded Documents -->
+                        <div class="document-list-section">
+                            <h4>Recently Uploaded Documents</h4>
+                            <div id="staff-documents" class="document-list">
+                                <!-- Documents will be populated here -->
+                                <p>Loading documents...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="admin-panel" class="role-panel">
+                    <h3>Admin Panel</h3>
+                    <p>Welcome, Administrator! Here you can manage system settings and users.</p>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <h4>User Management</h4>
+                            <p>Manage users and permissions</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>System Settings</h4>
+                            <p>Configure system parameters</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Reports</h4>
+                            <p>Generate and view system reports</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Document Management Section -->
+                    <div class="document-section">
+                        <h3>Document Management</h3>
+                        
+                        <!-- Upload Document Form -->
+                        <div class="upload-section">
+                            <h4>Upload System Document</h4>
+                            <form id="admin-upload-form" class="upload-form">
+                                <div class="form-group">
+                                    <label for="admin-file">Select File:</label>
+                                    <input type="file" id="admin-file" name="file" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="admin-document-type">Document Type:</label>
+                                    <select id="admin-document-type" name="documentType" required>
+                                        <option value="OTHER">System Document</option>
+                                        <option value="MEDICAL_RECORD">Medical Record</option>
+                                        <option value="BILLING">Billing Document</option>
+                                        <option value="INSURANCE">Insurance Document</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="admin-description">Description:</label>
+                                    <textarea id="admin-description" name="description" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="admin-related-user">Related User ID (if applicable):</label>
+                                    <input type="text" id="admin-related-user" name="relatedUserId">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Upload Document</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- All Documents (Admin has access to all) -->
+                        <div class="document-list-section">
+                            <h4>All Documents</h4>
+                            <div id="admin-documents" class="document-list">
+                                <!-- Documents will be populated here -->
+                                <p>Loading documents...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2023 Healthcare Management System</p>
+        </footer>
+    </div>
+    
+    <script src="js/dashboard.js"></script>
+    <script src="js/documents.js"></script>
+    <script src="js/common.js" defer></script>
+    <script>
+        // Initialize document features after dashboard loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            const userId = localStorage.getItem('userId');
+            
+            // Initialize document upload forms
+            if (userRole === 'DOCTOR') {
+                initDocumentUpload('doctor-upload-form');
+                
+                // Load doctor documents
+                getUserDocuments(function(documents) {
+                    createDocumentList(documents, document.getElementById('doctor-documents'), true);
+                });
+            }
+            
+            if (userRole === 'PATIENT') {
+                initDocumentUpload('patient-upload-form');
+                
+                // Load patient's uploaded documents
+                getUserDocuments(function(documents) {
+                    createDocumentList(documents, document.getElementById('patient-uploaded-documents'));
+                });
+                
+                // Load documents related to patient
+                getRelatedDocuments(function(documents) {
+                    createDocumentList(documents, document.getElementById('patient-related-documents'));
+                });
+            }
+            
+            if (userRole === 'STAFF') {
+                initDocumentUpload('staff-upload-form');
+                
+                // Load staff uploaded documents
+                getUserDocuments(function(documents) {
+                    createDocumentList(documents, document.getElementById('staff-documents'));
+                });
+            }
+            
+            if (userRole === 'ADMIN') {
+                initDocumentUpload('admin-upload-form');
+                
+                // Admins can see all documents
+                getUserDocuments(function(documents) {
+                    createDocumentList(documents, document.getElementById('admin-documents'), true);
+                });
+            }
+
+            // Add debug button for admins
+            if (localStorage.getItem('userRole') === 'ADMIN') {
+                const debugBtn = document.createElement('button');
+                debugBtn.textContent = "Run Diagnostics";
+                debugBtn.className = "btn btn-secondary";
+                debugBtn.style.marginTop = "20px";
+                debugBtn.onclick = debugAuthAndDocuments;
+                document.querySelector('.dashboard-container').appendChild(debugBtn);
+            }
+        });
+        
+        // Function to refresh document lists
+        function refreshDocumentLists() {
+            const userRole = localStorage.getItem('userRole');
+            
+            if (userRole === 'DOCTOR') {
+                getUserDocuments(function(documents) {
+                    createDocumentList(documents, document.getElementById('doctor-documents'), true);
+                });
+            }
+            
+            if (userRole === 'PATIENT') {
+                getUserDocuments(function(documents) {
+                    createDocumentList(documents, document.getElementById('patient-uploaded-documents'));
+                });
+                
+                getRelatedDocuments(function(documents) {
+                    createDocumentList(documents, document.getElementById('patient-related-documents'));
+                });
+            }
+            
+            if (userRole === 'STAFF') {
+                getUserDocuments(function(documents) {
+                    createDocumentList(documents, document.getElementById('staff-documents'));
+                });
+            }
+            
+            if (userRole === 'ADMIN') {
+                getUserDocuments(function(documents) {
+                    createDocumentList(documents, document.getElementById('admin-documents'), true);
+                });
+            }
+        }
+
+        // Add diagnostic function for debugging
+        function debugAuthAndDocuments() {
+            console.log("=== Auth Diagnostic Info ===");
+            console.log("Token exists:", localStorage.getItem('token') ? "Yes" : "No");
+            console.log("Username:", localStorage.getItem('username'));
+            console.log("UserID:", localStorage.getItem('userId'));
+            console.log("Role:", localStorage.getItem('userRole'));
+            
+            // Test auth with a simple endpoint
+            fetchWithAuth('/api/documents/my-documents')
+                .then(response => {
+                    console.log("Auth test response status:", response.status);
+                    if(response.ok) {
+                        console.log("Authentication working properly");
+                        return response.json();
+                    } else {
+                        console.error("Authentication test failed");
+                        throw new Error("Auth test failed with status: " + response.status);
+                    }
+                })
+                .then(data => {
+                    console.log("Documents received:", data.length);
+                })
+                .catch(error => {
+                    console.error("Auth test error:", error);
+                });
+        }
+    </script>
+</body>
+</html>
