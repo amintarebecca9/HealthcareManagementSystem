@@ -96,7 +96,7 @@ public class DataInitializer implements CommandLineRunner {
     private User createUser(String username, String email, String rawPassword, User.Role role) {
         Optional<User> user = userRepository.findByUsername(username);
         return user.orElseGet(() -> {
-                    User u = new User(username, email, passwordEncoder.encode(rawPassword), role);
+                    User u = new User(username, email, passwordEncoder.encode(rawPassword), role, true);
                     return userRepository.save(u);
                 });
     }

@@ -63,7 +63,7 @@ class AppointmentControllerTest {
         when(userRepository.findByUsername("alice")).thenReturn(Optional.of(user));
 
         Patient patient = new Patient();
-        User user1 = new User("test", "mail@mail.com", "pass", User.Role.PATIENT);
+        User user1 = new User("test", "mail@mail.com", "pass", User.Role.PATIENT,true);
         user1.setId(99L);
         patient.setUser(user1);
         when(patientRepository.findByUserId(42L)).thenReturn(Optional.of(patient));
@@ -190,7 +190,7 @@ class AppointmentControllerTest {
         when(doctorRepository.findByUserId(3L)).thenReturn(Optional.of(doctor));
 
         Patient patient = new Patient();
-        User user1 = new User("test", "mail@mail.com", "pass", User.Role.PATIENT);
+        User user1 = new User("test", "mail@mail.com", "pass", User.Role.PATIENT,true);
         user1.setId(44L);
         patient.setUser(user1);
         List<Patient> patients = Collections.singletonList(patient);
