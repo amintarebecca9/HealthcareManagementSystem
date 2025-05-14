@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LabReportRepository extends JpaRepository<LabReport, Integer> {
+    int countByDoctorIdAndStatus(Long doctorId, String status);
 }

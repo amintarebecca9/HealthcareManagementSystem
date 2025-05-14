@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -18,6 +19,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     @Query("SELECT DISTINCT d FROM Appointment ap JOIN ap.doctor d WHERE ap.patient.id = :patId")
     List<Doctor> findDistinctDoctorsByPatientId(@Param("patId") Long patId);
+
+    int countByDoctorIdAndDate(Long doctorId, LocalDate date);
 }
 
 
