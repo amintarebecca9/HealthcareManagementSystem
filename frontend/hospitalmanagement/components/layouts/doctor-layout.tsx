@@ -20,10 +20,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { LayoutDashboard, Calendar, FileText, ClipboardList, MessageSquare, Settings, LogOut, Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useAuth } from "@/lib/auth-context"
 
 export default function DoctorLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [notifications, setNotifications] = useState(3)
+  const { logout, user } = useAuth()
 
   const navItems = [
     {
@@ -104,10 +106,10 @@ export default function DoctorLayout({ children }: { children: React.ReactNode }
               <div className="flex items-center space-x-2">
                 <Avatar>
                   <AvatarImage src="/avatars/doctor.png" />
-                  <AvatarFallback>DS</AvatarFallback>
+                  <AvatarFallback>{user?.name?.substring(0, 2) || 'DR'}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-sm font-medium">Dr. Sarah Smith</p>
+                  <p className="text-sm font-medium">{user?.name || 'Dr. Sarah Smith'}</p>
                   <p className="text-xs text-gray-500">Cardiologist</p>
                 </div>
               </div>
@@ -134,7 +136,7 @@ export default function DoctorLayout({ children }: { children: React.ReactNode }
                     </span>
                   )}
                 </Button>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={logout}>
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign Out
                 </Button>

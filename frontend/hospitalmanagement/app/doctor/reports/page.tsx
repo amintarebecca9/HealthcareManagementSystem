@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,8 +17,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Badge } from "@/components/ui/badge"
 import DoctorLayout from "@/components/layouts/doctor-layout"
-import { Search, PlusCircle, Upload } from "lucide-react"
+import { Search, PlusCircle, Upload, Download, FileText } from "lucide-react"
 
 export default function DoctorReportsPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -299,6 +300,171 @@ export default function DoctorReportsPage() {
               <TabsContent value="all">
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle
+                    <CardTitle>All Medical Reports</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {filteredReports.map((report) => (
+                        <div
+                          key={report.id}
+                          className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="p-2 bg-blue-50 rounded-md">
+                              <FileText className="h-5 w-5 text-blue-600" />
+                            </div>
+                            <div>
+                              <p className="font-medium">{report.title}</p>
+                              <div className="flex items-center gap-2 text-sm text-gray-500">
+                                <span>Patient: {report.patient}</span>
+                                <span>•</span>
+                                <span>{report.date}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge
+                              variant={report.status === "normal" ? "outline" : "destructive"}
+                            >
+                              {report.status === "normal" ? "Normal" : "Abnormal"}
+                            </Badge>
+                            <Button variant="outline" size="sm">
+                              <Download className="h-4 w-4 mr-1" /> Download
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
 
-\
+              <TabsContent value="abnormal">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle>Abnormal Results</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {filteredReports
+                        .filter((report) => report.status === "abnormal")
+                        .map((report) => (
+                          <div
+                            key={report.id}
+                            className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                          >
+                            <div className="flex items-center gap-4">
+                              <div className="p-2 bg-red-50 rounded-md">
+                                <FileText className="h-5 w-5 text-red-600" />
+                              </div>
+                              <div>
+                                <p className="font-medium">{report.title}</p>
+                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                  <span>Patient: {report.patient}</span>
+                                  <span>•</span>
+                                  <span>{report.date}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Badge variant="destructive">Abnormal</Badge>
+                              <Button variant="outline" size="sm">
+                                <Download className="h-4 w-4 mr-1" /> Download
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="recent">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle>Recent Reports (Last 30 Days)</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {filteredReports
+                        .filter((report) => {
+                          // This is a simple demonstration - in a real app, you would compare actual dates
+                          return report.date.includes("Jun") || report.date.includes("May");
+                        })
+                        .map((report) => (
+                          <div
+                            key={report.id}
+                            className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                          >
+                            <div className="flex items-center gap-4">
+                              <div className="p-2 bg-blue-50 rounded-md">
+                                <FileText className="h-5 w-5 text-blue-600" />
+                              </div>
+                              <div>
+                                <p className="font-medium">{report.title}</p>
+                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                  <span>Patient: {report.patient}</span>
+                                  <span>•</span>
+                                  <span>{report.date}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Badge
+                                variant={report.status === "normal" ? "outline" : "destructive"}
+                              >
+                                {report.status === "normal" ? "Normal" : "Abnormal"}
+                              </Badge>
+                              <Button variant="outline" size="sm">
+                                <Download className="h-4 w-4 mr-1" /> Download
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Report Statistics</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                    <span className="font-medium">Total Reports</span>
+                    <span className="font-bold">{allReports.length}</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                    <span className="font-medium">Normal Results</span>
+                    <span className="font-bold">
+                      {allReports.filter((r) => r.status === "normal").length}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                    <span className="font-medium">Abnormal Results</span>
+                    <span className="font-bold text-red-600">
+                      {allReports.filter((r) => r.status === "abnormal").length}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                    <span className="font-medium">Reports This Month</span>
+                    <span className="font-bold">
+                      {
+                        allReports.filter((r) => r.date.includes("Jun")).length
+                      }
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </DoctorLayout>
+  )
+}

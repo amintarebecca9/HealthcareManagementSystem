@@ -8,10 +8,12 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
+import { useAuth } from "@/lib/auth-context"
 
 export default function LoginPage() {
   const router = useRouter()
-  const [email, setEmail] = useState("")
+  const { login } = useAuth()
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -22,27 +24,18 @@ export default function LoginPage() {
     setError("")
 
     try {
-      const response = await fetch("/api/auth", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      })
-
-      const data = await response.json()
-
-      if (data.success) {
-        // Store user data in localStorage
-        localStorage.setItem("user", JSON.stringify(data.user))
-
-        // Redirect based on role
-        router.push(`/${data.user.role}/dashboard`)
-      } else {
-        setError(data.message || "Login failed")
+      // Use the login function from auth context
+      const response = await login(username, password)
+      
+      // If successful, the auth context will update the user state
+      // and we can redirect based on user role
+      const userRole = localStorage.getItem('userRole')
+      if (userRole) {
+        router.push(`/${userRole}/dashboard`)
       }
     } catch (err) {
-      setError("An error occurred. Please try again.")
+      setError("Invalid username or password")
+      console.error("Login error:", err)
     } finally {
       setIsLoading(false)
     }
@@ -50,13 +43,13 @@ export default function LoginPage() {
 
   // Demo accounts for quick login
   const demoAccounts = [
-    { email: "admin@hms.com", password: "admin123", role: "Admin" },
-    { email: "jyothirmai.puram@hms.com", password: "doctor123", role: "Doctor" },
-    { email: "patient@hms.com", password: "patient123", role: "Patient" },
+    { username: "admin@hms.com", password: "admin123", role: "Admin" },
+    { username: "jyothirmai.puram@hms.com", password: "doctor123", role: "Doctor" },
+    { username: "patient@hms.com", password: "patient123", role: "Patient" },
   ]
 
-  const loginWithDemo = (demoEmail, demoPassword) => {
-    setEmail(demoEmail)
+  const loginWithDemo = (demoUsername, demoPassword) => {
+    setUsername(demoUsername)
     setPassword(demoPassword)
   }
 
@@ -86,13 +79,13 @@ export default function LoginPage() {
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="username"
+                  type="text"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   required
                 />
               </div>
@@ -141,7 +134,7 @@ export default function LoginPage() {
                   key={index}
                   variant="outline"
                   type="button"
-                  onClick={() => loginWithDemo(account.email, account.password)}
+                  onClick={() => loginWithDemo(account.username, account.password)}
                   className="text-sm"
                 >
                   Login as {account.role}

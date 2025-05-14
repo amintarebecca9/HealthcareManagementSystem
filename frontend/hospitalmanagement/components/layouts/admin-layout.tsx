@@ -17,10 +17,12 @@ import {
   X,
   MessageSquare,
 } from "lucide-react"
+import { useAuth } from "@/lib/auth-context"
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const { logout, user } = useAuth()
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
@@ -84,12 +86,13 @@ export default function AdminLayout({ children }) {
           </nav>
 
           <div className="p-4 border-t">
-            <Link href="/login">
-              <div className="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100">
-                <LogOut className="h-5 w-5" />
-                {isSidebarOpen && <span>Logout</span>}
-              </div>
-            </Link>
+            <div 
+              className="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 cursor-pointer"
+              onClick={logout}
+            >
+              <LogOut className="h-5 w-5" />
+              {isSidebarOpen && <span>Logout</span>}
+            </div>
           </div>
         </div>
       </aside>
@@ -113,11 +116,11 @@ export default function AdminLayout({ children }) {
 
             <div className="flex items-center gap-3">
               <Avatar>
-                <AvatarFallback>AD</AvatarFallback>
+                <AvatarFallback>{user?.name?.substring(0, 2) || 'AD'}</AvatarFallback>
               </Avatar>
               <div className="hidden md:block">
-                <p className="text-sm font-medium">Admin User</p>
-                <p className="text-xs text-gray-500">admin@hms.com</p>
+                <p className="text-sm font-medium">{user?.name || 'Admin User'}</p>
+                <p className="text-xs text-gray-500">{user?.email || 'admin@hms.com'}</p>
               </div>
             </div>
           </div>

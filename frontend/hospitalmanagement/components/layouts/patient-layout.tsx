@@ -18,10 +18,12 @@ import {
   User,
   FilePlus,
 } from "lucide-react"
+import { useAuth } from "@/lib/auth-context"
 
 export default function PatientLayout({ children }) {
   const pathname = usePathname()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const { logout, user } = useAuth()
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
@@ -86,12 +88,13 @@ export default function PatientLayout({ children }) {
           </nav>
 
           <div className="p-4 border-t">
-            <Link href="/login">
-              <div className="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100">
-                <LogOut className="h-5 w-5" />
-                {isSidebarOpen && <span>Logout</span>}
-              </div>
-            </Link>
+            <div 
+              className="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 cursor-pointer"
+              onClick={logout}
+            >
+              <LogOut className="h-5 w-5" />
+              {isSidebarOpen && <span>Logout</span>}
+            </div>
           </div>
         </div>
       </aside>
@@ -115,10 +118,10 @@ export default function PatientLayout({ children }) {
 
             <div className="flex items-center gap-3">
               <Avatar>
-                <AvatarFallback>SB</AvatarFallback>
+                <AvatarFallback>{user?.name?.substring(0, 2) || 'PT'}</AvatarFallback>
               </Avatar>
               <div className="hidden md:block">
-                <p className="text-sm font-medium">Supraj Bachawala</p>
+                <p className="text-sm font-medium">{user?.name || 'Patient Name'}</p>
                 <p className="text-xs text-gray-500">Patient</p>
               </div>
             </div>
