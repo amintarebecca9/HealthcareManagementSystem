@@ -9,10 +9,19 @@ public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Integer prescriptionId;
+    private Long prescriptionId;
 
-    @Column(length = 100)
-    private String medicationName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "medication_id", nullable = false)
+    private Medication medication;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
 
     @Column(length = 50)
     private String dosage;
@@ -30,12 +39,16 @@ public class Prescription {
     public Prescription() {}
 
     // Constructor with fields
-    public Prescription(String medicationName,
+    public Prescription(Medication medication,
+                        Doctor doctor,
+                        Patient patient,
                         String dosage,
                         String frequency,
                         String duration,
                         String notes) {
-        this.medicationName = medicationName;
+        this.medication = medication;
+        this.doctor = doctor;
+        this.patient = patient;
         this.dosage = dosage;
         this.frequency = frequency;
         this.duration = duration;
@@ -43,16 +56,32 @@ public class Prescription {
     }
 
     // Getters and Setters
-    public Integer getPrescriptionId() {
+    public Long getPrescriptionId() {
         return prescriptionId;
     }
 
-    public String getMedicationName() {
-        return medicationName;
+    public Medication getMedication() {
+        return medication;
     }
 
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
+    public void setMedication(Medication medication) {
+        this.medication = medication;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     public String getDosage() {
@@ -87,4 +116,3 @@ public class Prescription {
         this.notes = notes;
     }
 }
-

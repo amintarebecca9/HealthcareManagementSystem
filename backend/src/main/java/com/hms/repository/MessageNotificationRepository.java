@@ -35,4 +35,5 @@ public interface MessageNotificationRepository
 
     List<MessageNotification> findByReceiverOrderByTimestampDesc(User receiver);
     List<MessageNotification> findBySenderOrderByTimestampDesc(User sender);
+    int countByRecipientIdAndReadFalse(Long recipientId);
 }

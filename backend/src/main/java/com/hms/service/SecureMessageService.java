@@ -24,4 +24,5 @@ public interface SecureMessageService {
     // newly added
     List<ConversationDto> listConversations(User me);
     List<MessageDto> fetchAndMarkRead(User me, Long partnerId);
+    List<MessageNotification> getAllMessages();
 }

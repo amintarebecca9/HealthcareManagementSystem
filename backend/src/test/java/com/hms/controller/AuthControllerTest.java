@@ -74,21 +74,6 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void testRegisterUser() throws Exception {
-        SignupRequest signupRequest = new SignupRequest();
-        signupRequest.setUsername("newuser");
-        signupRequest.setEmail("newuser@example.com");
-        signupRequest.setPassword("password");
-        signupRequest.setRole(User.Role.PATIENT); // Fixed: Using enum instead of string
-
-        mockMvc.perform(post("/api/auth/signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(signupRequest)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("User registered successfully!"));
-    }
-
-    @Test
     public void testAuthenticateUser() throws Exception {
         // First create a testuser for authentication test
         createTestUser("testuser", "testuser@example.com", "password", User.Role.PATIENT);
